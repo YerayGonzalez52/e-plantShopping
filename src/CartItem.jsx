@@ -9,28 +9,46 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    return cart.reduce((total, item) => {
+      const itemCost = parseFloat(item.cost.replace('$', '')); // Quitar el "$" y convertir a número
+      return total + itemCost * item.quantity; // Multiplicar el costo por la cantidad y agregar al total
+    }, 0);
   };
-
   const handleContinueShopping = (e) => {
-   
+    onContinueShopping(e);
   };
 
+  const handleCheckoutShopping = (e) => {
+  alert('Functionality to be added for future reference');
+};
 
 
-  const handleIncrement = (item) => {
+
+    const handleIncrement = (item) => {
+        const newQuantity = item.quantity + 1;  // Cambié el nombre de 'updateQuantity' a 'newQuantity'
+        dispatch(updateQuantity({ name: item.name, quantity: newQuantity }));  // Llamo a la acción con la nueva cantidad
   };
 
   const handleDecrement = (item) => {
-   
-  };
+  if (item.quantity === 1) {
+    dispatch(removeItem(item.name));  // Si la cantidad es 1, se elimina el artículo
+  } else {
+    const newQuantity = item.quantity - 1;  // Cambié el nombre de 'updateQuantity' a 'newQuantity'
+    dispatch(updateQuantity({ name: item.name, quantity: newQuantity }));  // Llamo a la acción con la nueva cantidad
+  }
+};
 
   const handleRemove = (item) => {
+    dispatch(removeItem(item.name)); // Eliminar el artículo del carrito
   };
 
   // Calculate total cost based on quantity for an item
-  const calculateTotalCost = (item) => {
-  };
+  // Calcular el costo total de un artículo basado en su cantidad
+    const calculateTotalCost = (item) => {
+        const itemCost = parseFloat(item.cost.replace('$', '')); // Quitar el "$" y convertir a número
+        return itemCost * item.quantity; // Multiplicar el costo unitario por la cantidad
+    };
+
 
   return (
     <div className="cart-container">
